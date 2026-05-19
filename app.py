@@ -18,7 +18,10 @@ reviews = pd.read_csv("/data/womens_clothing_e-commerce_reviews.csv")
 review_texts = reviews["Review Text"].dropna()
 
 # Create and store the embeddings for reviews in one API call
-client = openai.OpenAI()
+client = openai.OpenAI(
+     api_key=os.getenv("OPENAI_API_KEY")
+)
+
 responses = client.embeddings.create(input=review_texts.tolist(), model=EMBEDDING_MODEL).model_dump()
 embeddings = [response["embedding"] for response in responses["data"]]
 
